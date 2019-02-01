@@ -1,0 +1,4 @@
+package: comment
+import:
+- package: github.com/gin-gonic/gin
+  version: v1.3.0

@@ -1,12 +1,10 @@
 package main
 
-
 import (
-
-	"strconv"
-	"strings"
 	. "comment/config"
 	"github.com/gin-gonic/gin"
+	"strconv"
+	"strings"
 )
 
 func main() {

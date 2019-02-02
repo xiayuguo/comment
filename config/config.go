@@ -25,8 +25,8 @@ type DbInfo struct {
 }
 type Config struct {
 	GlobalInfo `yaml:"Global"`
-	LogInfo `yaml:"Log"`
-	DbInfo `yaml:"Db"`
+	LogInfo    `yaml:"Log"`
+	DbInfo     `yaml:"Db"`
 }
 
 var Global GlobalInfo

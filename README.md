@@ -1,8 +1,8 @@
+
 # comment
----
 
 ## Features
-- Comment
-- Reply to Comment
+- comment
+- reply to comment
 - 👍
 - 👎

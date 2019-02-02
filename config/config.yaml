@@ -1,0 +1,16 @@
+
+Global:
+  Version: 1.0.0.0
+  Host: 0.0.0.0
+  Port: 10008
+
+Log:
+  Path: log
+  Level: debug
+
+Db:
+  Host: 127.0.0.1
+  Port: 27017
+  User: comment
+  Password: comment
+  Database: comment

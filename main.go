@@ -1,8 +1,13 @@
 package main
 
 
-import "github.com/gin-gonic/gin"
+import (
 
+	"strconv"
+	"strings"
+	. "comment/config"
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
 	r := gin.Default()
@@ -10,6 +15,7 @@ func main() {
 		c.JSON(200, gin.H{
 			"message": "pong",
 		})
-	}) 
-	r.Run()
+	})
+
+	r.Run(strings.Join([]string{Global.Host, strconv.Itoa(Global.Port)}, ":"))
 }

@@ -13,8 +13,9 @@ type GlobalInfo struct {
 }
 
 type LogInfo struct {
-	Path  string `yaml:"Path"`
-	Level string `yaml:"Level"`
+	Path      string `yaml:"Path"`
+	Level     string `yaml:"Level"`
+	IsConsole string `yaml:"IsConsole"`
 }
 type DbInfo struct {
 	Host     string `yaml:"Host"`

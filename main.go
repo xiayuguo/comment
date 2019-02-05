@@ -41,11 +41,6 @@ func main() {
 	middleware.Init(r)
 	// 初始化路由
 	router.Init(r)
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
 
 	r.Run(strings.Join([]string{Global.Host, strconv.Itoa(Global.Port)}, ":"))
 }

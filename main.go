@@ -3,6 +3,7 @@ package main
 import (
 	. "comment/config"
 	"comment/logger"
+	"comment/router"
 	"comment/middleware"
 	"github.com/gin-gonic/gin"
 	"strconv"
@@ -38,6 +39,8 @@ func main() {
 	r := gin.Default()
 	// 初始化中间件
 	middleware.Init(r)
+	// 初始化路由
+	router.Init(r)
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",

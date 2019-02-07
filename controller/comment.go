@@ -6,7 +6,6 @@ import (
 
 type CommentController struct{}
 
-
 func (cc *CommentController) GetComment(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"message": c.Param("id"),

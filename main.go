@@ -3,8 +3,8 @@ package main
 import (
 	. "comment/config"
 	"comment/logger"
-	"comment/router"
 	"comment/middleware"
+	"comment/router"
 	"github.com/gin-gonic/gin"
 	"strconv"
 	"strings"

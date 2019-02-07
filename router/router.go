@@ -23,18 +23,18 @@ func Init(r *gin.Engine) {
 //获取评论相关接口
 func initComment(r *gin.Engine) {
 	comment := r.Group("/comment")
-    {
-        comment.GET("/:id", (&CommentController{}).GetComment)
-        comment.POST("/:id", (&CommentController{}).CreateComment)
-        comment.PUT("/:id", (&CommentController{}).UpdateComment)
-        comment.DELETE("/:id", (&CommentController{}).DeleteComment)
-        comment.POST("/:id/reply", (&CommentController{}).ReplyComment)
-        comment.POST("/:id/like", (&CommentController{}).LikeComment)
-        comment.POST("/:id/dislike", (&CommentController{}).DislikeComment)
-        comment.DELETE("/:id/like", (&CommentController{}).DeleteLikeComment)
-        comment.DELETE("/:id/dislike", (&CommentController{}).DeleteDislikeComment)
-        comment.GET("/:id/likes", (&CommentController{}).LikesComment)
-        comment.GET("/:id/dislikes", (&CommentController{}).DislikesComment)
-    }
+	{
+		comment.GET("/:id", (&CommentController{}).GetComment)
+		comment.POST("/:id", (&CommentController{}).CreateComment)
+		comment.PUT("/:id", (&CommentController{}).UpdateComment)
+		comment.DELETE("/:id", (&CommentController{}).DeleteComment)
+		comment.POST("/:id/reply", (&CommentController{}).ReplyComment)
+		comment.POST("/:id/like", (&CommentController{}).LikeComment)
+		comment.POST("/:id/dislike", (&CommentController{}).DislikeComment)
+		comment.DELETE("/:id/like", (&CommentController{}).DeleteLikeComment)
+		comment.DELETE("/:id/dislike", (&CommentController{}).DeleteDislikeComment)
+		comment.GET("/:id/likes", (&CommentController{}).LikesComment)
+		comment.GET("/:id/dislikes", (&CommentController{}).DislikesComment)
+	}
 	r.GET("/comments", (&CommentController{}).GetAllComment)
 }

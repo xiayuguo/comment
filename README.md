@@ -47,5 +47,5 @@
 |字段	|类型	|描述	|备注|
 |:-|:-|:-|:-|
 |\_id	|string	|评论 id	|ObjectId|
-|user_id	|string	|用户 id	|表 user 的 id|
+|user_id	|string	|用户 id	|表 user 的 \_id|
 |is_like	|bool	|是否点赞|	|

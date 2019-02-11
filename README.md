@@ -20,6 +20,8 @@
 - get count of like `Get /comment/:id/likes`
 - get count of dislike `Get /comment/:id/dislikes`
 
+[if you want more details about api, please click it.](https://github.com/hugoxia/comment/wiki/Api)
+
 ## Database Design
 * user
 

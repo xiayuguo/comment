@@ -27,7 +27,7 @@
 
 |字段	|类型	|描述	|备注|
 |:-|:-|:-|:-|
-|id	|string	|用户 |id|	
+|\_id	|string	|用户 |id|	
 |avatar	|string	|头像	|图片链接|
 |username	|string	|用户名|	
 
@@ -35,7 +35,7 @@
 
 |字段	|类型	|描述	|备注|
 |:-|:-|:-|:-|
-|id	|string	|评论 id	|uuid 生成|
+|\_id	|string	|评论 id	|uuid 生成|
 |reply_id	|string	|被评论 id	|表 comment 的 id|
 |user_id	|string	|用户 id	|表 user 的 id|
 |content	|string	|评论内容	||
@@ -46,6 +46,6 @@
 
 |字段	|类型	|描述	|备注|
 |:-|:-|:-|:-|
-|id	|string	|评论 id	|uuid 生成|
+|\_id	|string	|评论 id	|uuid 生成|
 |user_id	|string	|用户 id	|表 user 的 id|
 |is_like	|bool	|是否点赞|	|

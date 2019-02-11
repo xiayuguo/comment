@@ -27,7 +27,7 @@
 
 |字段	|类型	|描述	|备注|
 |:-|:-|:-|:-|
-|\_id	|string	|用户 |ObjectId|	
+|\_id	|ObjectId	|用户 id||	
 |avatar	|string	|头像	|图片链接|
 |username	|string	|用户名|	
 
@@ -35,7 +35,7 @@
 
 |字段	|类型	|描述	|备注|
 |:-|:-|:-|:-|
-|\_id	|string	|评论 id	|ObjectId|
+|\_id	|ObjectId	|评论 id	||
 |reply_id	|string	|被评论 id	|表 comment 的 \_id|
 |user_id	|string	|用户 ObjectIdid	|表 user 的 \_id|
 |content	|string	|评论内容	||
@@ -46,6 +46,7 @@
 
 |字段	|类型	|描述	|备注|
 |:-|:-|:-|:-|
-|\_id	|string	|评论 id	|ObjectId|
+|\_id|ObjectId|点赞 id||
+|comment_id	|string	|评论 id	|表 comment 的 \_id|
 |user_id	|string	|用户 id	|表 user 的 \_id|
 |is_like	|bool	|是否点赞|	|

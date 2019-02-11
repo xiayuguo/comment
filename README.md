@@ -37,7 +37,7 @@
 |:-|:-|:-|:-|
 |\_id	|ObjectId	|评论 id	||
 |reply_id	|string	|被评论 id	|表 comment 的 \_id|
-|user_id	|string	|用户 ObjectIdid	|表 user 的 \_id|
+|user_id	|string	|用户 id	|表 user 的 \_id|
 |content	|string	|评论内容	||
 |create_time	|int	|创建时间	|时间戳|
 |update_time	|int	|更新时间	|时间戳|

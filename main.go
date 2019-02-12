@@ -5,8 +5,8 @@ import (
 	"comment/logger"
 	"comment/middleware"
 	"comment/router"
+	"comment/util"
 	"github.com/gin-gonic/gin"
-	"strconv"
 	"strings"
 )
 
@@ -41,6 +41,5 @@ func main() {
 	middleware.Init(r)
 	// 初始化路由
 	router.Init(r)
-
-	r.Run(strings.Join([]string{Global.Host, strconv.Itoa(Global.Port)}, ":"))
+	r.Run(util.Join([]interface{}{Global.Host, Global.Port}, ":"))
 }

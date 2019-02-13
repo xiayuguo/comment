@@ -10,7 +10,7 @@ Log:
   IsConsole: 1
 
 Db:
-  Host: xiayuguo.com
+  Host: 127.0.0.1
   Port: 29017
   User: comment
   Password: comment

@@ -12,7 +12,6 @@
 - add comment `Post /comment`
 - edit comment `Put /comment/:id`
 - delete comment `Delete /comment/:id`
-- reply to comment `Post /comment/:id/reply`
 - like `Post /comment/:id/like`
 - dislike `Post /comment/:id/dislike`
 - cancel like `Delete /comment/:id/like`
@@ -20,7 +19,7 @@
 - get count of like `Get /comment/:id/likes`
 - get count of dislike `Get /comment/:id/dislikes`
 
-[if you want more details about api, please click it.](https://github.com/hugoxia/comment/wiki/Api)
+[If you want more details about api, please click it.](https://github.com/hugoxia/comment/wiki/Api)
 
 ## Database Design
 * user

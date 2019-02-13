@@ -2,6 +2,7 @@ package util
 
 import (
 	"fmt"
+	"gopkg.in/mgo.v2/bson"
 	"math/rand"
 	"strconv"
 	"strings"
@@ -14,8 +15,14 @@ func GenerateLogid() string {
 	return strconv.FormatInt(time.Now().UnixNano(), 10) + fmt.Sprintf(":%d", r.Intn(10000))
 }
 
+// S is a shortcut for []interface{}
+type S []interface{}
+
+// BM is a shortcut for bson.M
+type BM bson.M
+
 // 拼接 String 和 Integer
-func Join(slice []interface{}, sep string) string {
+func Join(slice S, sep string) string {
 	var tmp []string
 	for _, v := range slice {
 		switch t := v.(type) {
@@ -29,4 +36,13 @@ func Join(slice []interface{}, sep string) string {
 		}
 	}
 	return strings.Join(tmp, sep)
+}
+
+// convert string id to ObjectId
+func StringIdToObjectId(id string) *bson.ObjectId {
+	if id != "" && bson.IsObjectIdHex(id) {
+		bsonObjectId := bson.ObjectIdHex(id)
+		return &bsonObjectId
+	}
+	return nil
 }

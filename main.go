@@ -41,5 +41,5 @@ func main() {
 	middleware.Init(r)
 	// 初始化路由
 	router.Init(r)
-	r.Run(util.Join([]interface{}{Global.Host, Global.Port}, ":"))
+	r.Run(util.Join(util.S{Global.Host, Global.Port}, ":"))
 }

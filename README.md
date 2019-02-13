@@ -9,7 +9,7 @@
 
 ## Api Design
 - get all comments `Get /comments`
-- add comment `Post /comment`
+- add/reply comment `Post /comment`
 - edit comment `Put /comment/:id`
 - delete comment `Delete /comment/:id`
 - like `Post /comment/:id/like`

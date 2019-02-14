@@ -21,15 +21,15 @@ type S []interface{}
 // BM is a shortcut for bson.M
 type BM bson.M
 
-// 拼接 String 和 Integer
+// Join 拼接 String 和 Integer
 func Join(slice S, sep string) string {
 	var tmp []string
 	for _, v := range slice {
 		switch t := v.(type) {
 		case string:
-			tmp = append(tmp, v.(string))
+			tmp = append(tmp, t)
 		case int:
-			tmp = append(tmp, strconv.Itoa(v.(int)))
+			tmp = append(tmp, strconv.Itoa(t))
 		default:
 			// 异常处理
 			fmt.Printf("Error: I don't support type %T!\n", t)

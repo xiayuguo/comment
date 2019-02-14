@@ -1,17 +1,24 @@
 package controller
 
 import (
-	// "encoding/json"
-	. "comment/database"
-	// "comment/logger"
-	. "comment/util"
+	"comment/database"
+	"comment/util"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
 	"time"
 )
 
-type CommentController struct{}
+// DB is shortcut of database.DB
+var DB = database.DB
 
+type (
+	// BM is shortcut of database.DB
+	BM util.BM
+	// CommentController 声明
+	CommentController struct{}
+)
+
+// GetComment 获取某个评论
 func (cc *CommentController) GetComment(c *gin.Context) {
 	var result Comment
 	id := c.Param("id")
@@ -27,14 +34,15 @@ func (cc *CommentController) GetComment(c *gin.Context) {
 	}
 }
 
+// CreateComment 创建评论
 func (cc *CommentController) CreateComment(c *gin.Context) {
 	var commentForm CommentForm
 	c.Bind(&commentForm)
 	now := time.Now().Unix()
 	err := DB.C("comment").Insert(
 		&Comment{
-			UserId:     bson.ObjectIdHex(commentForm.UserId),
-			ReplyId:    StringIdToObjectId(commentForm.ReplyId),
+			UserID:     bson.ObjectIdHex(commentForm.UserID),
+			ReplyID:    util.StringIdToObjectId(commentForm.ReplyID),
 			Content:    commentForm.Content,
 			CreateTime: now,
 			UpdateTime: now,
@@ -47,10 +55,9 @@ func (cc *CommentController) CreateComment(c *gin.Context) {
 	})
 }
 
+// UpdateComment 更新评论
 func (cc *CommentController) UpdateComment(c *gin.Context) {
-	var comment struct {
-		Content string `json:"content" form:"content"`
-	}
+	var comment UpdateCommentForm
 	id := c.Param("id")
 	c.Bind(&comment)
 	condition := BM{"_id": bson.ObjectIdHex(id)}
@@ -64,10 +71,11 @@ func (cc *CommentController) UpdateComment(c *gin.Context) {
 	})
 }
 
+// DeleteComment 删除评论
 func (cc *CommentController) DeleteComment(c *gin.Context) {
 	id := c.Param("id")
-	bsonId := bson.ObjectIdHex(id)
-	_, err := DB.C("comment").RemoveAll(BM{"$or": []BM{BM{"_id": bsonId}, BM{"reply_id": bsonId}}})
+	bsonID := bson.ObjectIdHex(id)
+	_, err := DB.C("comment").RemoveAll(BM{"$or": []BM{BM{"_id": bsonID}, BM{"reply_id": bsonID}}})
 	if err != nil {
 		panic(err)
 	}
@@ -76,42 +84,109 @@ func (cc *CommentController) DeleteComment(c *gin.Context) {
 	})
 }
 
+// LikeComment 评论点赞
 func (cc *CommentController) LikeComment(c *gin.Context) {
+	var likeform LikeForm
+	commentID := c.Param("id")
+	c.Bind(&likeform)
+	err := DB.C("like").Insert(
+		&Like{
+			CommentID: bson.ObjectIdHex(commentID),
+			UserID:    bson.ObjectIdHex(likeform.UserID),
+			IsLike:    true,
+		})
+	if err != nil {
+		panic(err)
+	}
 	c.JSON(200, gin.H{
 		"message": "success",
 	})
 }
 
+// DislikeComment 踩评论
 func (cc *CommentController) DislikeComment(c *gin.Context) {
+	var likeform LikeForm
+	commentID := c.Param("id")
+	c.Bind(&likeform)
+	err := DB.C("like").Insert(
+		&Like{
+			CommentID: bson.ObjectIdHex(commentID),
+			UserID:    bson.ObjectIdHex(likeform.UserID),
+			IsLike:    false,
+		})
+	if err != nil {
+		panic(err)
+	}
 	c.JSON(200, gin.H{
 		"message": "success",
 	})
 }
 
+// DeleteLikeComment 取消喜欢评论
 func (cc *CommentController) DeleteLikeComment(c *gin.Context) {
+	var likeform LikeForm
+	CommentID := c.Param("id")
+	c.Bind(&likeform)
+	commentBsonID := bson.ObjectIdHex(CommentID)
+	userBsonID := bson.ObjectIdHex(likeform.UserID)
+	err := DB.C("like").Remove(BM{"$and": []BM{
+		BM{"user_id": userBsonID},
+		BM{"comment_id": commentBsonID},
+		BM{"is_like": true},
+	}})
+	if err != nil {
+		panic(err)
+	}
 	c.JSON(200, gin.H{
 		"message": "success",
 	})
 }
 
+// DeleteDislikeComment 取消踩评论
 func (cc *CommentController) DeleteDislikeComment(c *gin.Context) {
+	var likeform LikeForm
+	CommentID := c.Param("id")
+	c.Bind(&likeform)
+	commentBsonID := bson.ObjectIdHex(CommentID)
+	userBsonID := bson.ObjectIdHex(likeform.UserID)
+	err := DB.C("like").Remove(BM{"$and": []BM{
+		BM{"user_id": userBsonID},
+		BM{"comment_id": commentBsonID},
+		BM{"is_like": false},
+	}})
+	if err != nil {
+		panic(err)
+	}
 	c.JSON(200, gin.H{
 		"message": "success",
 	})
 }
 
+// LikesComment 获取喜欢评论总数
 func (cc *CommentController) LikesComment(c *gin.Context) {
+	CommentID := c.Param("id")
+	count, err := DB.C("like").FindId(bson.ObjectIdHex(CommentID)).Select(BM{"is_like": true}).Count()
+	if err != nil {
+		panic(err)
+	}
 	c.JSON(200, gin.H{
-		"message": "success",
+		"message": count,
 	})
 }
 
+// DislikesComment 获取踩评论总数
 func (cc *CommentController) DislikesComment(c *gin.Context) {
+	CommentID := c.Param("id")
+	count, err := DB.C("like").FindId(bson.ObjectIdHex(CommentID)).Select(BM{"is_like": false}).Count()
+	if err != nil {
+		panic(err)
+	}
 	c.JSON(200, gin.H{
-		"message": "success",
+		"message": count,
 	})
 }
 
+// GetAllComment 获取所有评论
 func (cc *CommentController) GetAllComment(c *gin.Context) {
 	var result []Comment
 	err := DB.C("comment").Find(nil).All(&result)

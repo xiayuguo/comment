@@ -1,13 +1,20 @@
 package main
 
 import (
-	. "comment/config"
+	config "comment/config"
 	"comment/logger"
 	"comment/middleware"
 	"comment/router"
 	"comment/util"
 	"github.com/gin-gonic/gin"
 	"strings"
+)
+
+/*
+ */
+var (
+	Log    = config.Log
+	Global = config.Global
 )
 
 func main() {

@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// 生成 Logid
+// GenerateLogid 生成 logid
 func GenerateLogid() string {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	return strconv.FormatInt(time.Now().UnixNano(), 10) + fmt.Sprintf(":%d", r.Intn(10000))
@@ -32,17 +32,17 @@ func Join(slice S, sep string) string {
 			tmp = append(tmp, strconv.Itoa(t))
 		default:
 			// 异常处理
-			fmt.Printf("Error: I don't support type %T!\n", t)
+			panic(fmt.Sprintf("Error: I don't support type %T!\n", t))
 		}
 	}
 	return strings.Join(tmp, sep)
 }
 
-// convert string id to ObjectId
-func StringIdToObjectId(id string) *bson.ObjectId {
+// StringIDToObjectID convert string id to ObjectId
+func StringIDToObjectID(id string) *bson.ObjectId {
 	if id != "" && bson.IsObjectIdHex(id) {
-		bsonObjectId := bson.ObjectIdHex(id)
-		return &bsonObjectId
+		bsonObjectID := bson.ObjectIdHex(id)
+		return &bsonObjectID
 	}
 	return nil
 }

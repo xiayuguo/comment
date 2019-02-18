@@ -11,7 +11,9 @@ import (
 )
 
 /*
- */
+Log is shortcut of config.Log
+Global is shortcut of config.Global
+*/
 var (
 	Log    = config.Log
 	Global = config.Global

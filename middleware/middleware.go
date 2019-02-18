@@ -11,20 +11,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// ErrorMap 错误映射关系
 var ErrorMap = map[string]string{
 	"UNDEFINED_ERROR":    "未知错误",
 	"SERVER_INNER_ERROR": "服务器内部错误",
 }
 
+// RecoverHandler 处理从 Panic 中恢复数据
 func RecoverHandler(c *gin.Context) {
 	if err := recover(); err != nil {
 		fmt.Println("panic occur", err)
-		c.String(http.StatusOK, "server inner error")
+		c.String(http.StatusOK, fmt.Sprint("server inner error: ", err))
 		return
 	}
 }
 
-//预处理中间件
+// RequestMiddleHandler 请求中间件
 func RequestMiddleHandler(c *gin.Context) {
 	defer RecoverHandler(c)
 	c.Set("start_time", time.Now())
@@ -37,7 +39,7 @@ func RequestMiddleHandler(c *gin.Context) {
 	c.Next()
 }
 
-//响应客户端中间件
+// ResponseMiddleHandler 响应中间件
 func ResponseMiddleHandler(c *gin.Context) {
 	defer RecoverHandler(c)
 	c.Next()
@@ -64,7 +66,7 @@ func ResponseMiddleHandler(c *gin.Context) {
 	logger.Debug(logid, "************Cost Duration : ", duration.String(), " ***********\r\n\r\n")
 }
 
-//中间件初始化函数
+// Init 中间件初始化函数
 func Init(r *gin.Engine) {
 	//加载预处理中间件
 	r.Use(RequestMiddleHandler)

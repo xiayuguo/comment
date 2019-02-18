@@ -42,13 +42,14 @@ func (cc *CommentController) CreateComment(c *gin.Context) {
 	err := DB.C("comment").Insert(
 		&Comment{
 			UserID:     bson.ObjectIdHex(commentForm.UserID),
-			ReplyID:    util.StringIdToObjectId(commentForm.ReplyID),
+			ReplyID:    util.StringIDToObjectID(commentForm.ReplyID),
 			Content:    commentForm.Content,
 			CreateTime: now,
 			UpdateTime: now,
 		})
 	if err != nil {
-		panic(err)
+		c.Set("err", err.Error())
+		return
 	}
 	c.JSON(200, gin.H{
 		"message": "success",
@@ -64,7 +65,8 @@ func (cc *CommentController) UpdateComment(c *gin.Context) {
 	update := BM{"$set": BM{"update_time": time.Now().Unix(), "content": comment.Content}}
 	err := DB.C("comment").Update(condition, update)
 	if err != nil {
-		panic(err)
+		c.Set("err", err.Error())
+		return
 	}
 	c.JSON(200, gin.H{
 		"message": "success",
@@ -77,7 +79,8 @@ func (cc *CommentController) DeleteComment(c *gin.Context) {
 	bsonID := bson.ObjectIdHex(id)
 	_, err := DB.C("comment").RemoveAll(BM{"$or": []BM{BM{"_id": bsonID}, BM{"reply_id": bsonID}}})
 	if err != nil {
-		panic(err)
+		c.Set("err", err.Error())
+		return
 	}
 	c.JSON(200, gin.H{
 		"message": "success",
@@ -96,7 +99,8 @@ func (cc *CommentController) LikeComment(c *gin.Context) {
 			IsLike:    true,
 		})
 	if err != nil {
-		panic(err)
+		c.Set("err", err.Error())
+		return
 	}
 	c.JSON(200, gin.H{
 		"message": "success",
@@ -115,7 +119,8 @@ func (cc *CommentController) DislikeComment(c *gin.Context) {
 			IsLike:    false,
 		})
 	if err != nil {
-		panic(err)
+		c.Set("err", err.Error())
+		return
 	}
 	c.JSON(200, gin.H{
 		"message": "success",
@@ -135,7 +140,8 @@ func (cc *CommentController) DeleteLikeComment(c *gin.Context) {
 		BM{"is_like": true},
 	}})
 	if err != nil {
-		panic(err)
+		c.Set("err", err.Error())
+		return
 	}
 	c.JSON(200, gin.H{
 		"message": "success",
@@ -155,7 +161,8 @@ func (cc *CommentController) DeleteDislikeComment(c *gin.Context) {
 		BM{"is_like": false},
 	}})
 	if err != nil {
-		panic(err)
+		c.Set("err", err.Error())
+		return
 	}
 	c.JSON(200, gin.H{
 		"message": "success",
@@ -167,7 +174,8 @@ func (cc *CommentController) LikesComment(c *gin.Context) {
 	CommentID := c.Param("id")
 	count, err := DB.C("like").FindId(bson.ObjectIdHex(CommentID)).Select(BM{"is_like": true}).Count()
 	if err != nil {
-		panic(err)
+		c.Set("err", err.Error())
+		return
 	}
 	c.JSON(200, gin.H{
 		"message": count,
@@ -179,7 +187,8 @@ func (cc *CommentController) DislikesComment(c *gin.Context) {
 	CommentID := c.Param("id")
 	count, err := DB.C("like").FindId(bson.ObjectIdHex(CommentID)).Select(BM{"is_like": false}).Count()
 	if err != nil {
-		panic(err)
+		c.Set("err", err.Error())
+		return
 	}
 	c.JSON(200, gin.H{
 		"message": count,

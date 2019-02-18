@@ -13,3 +13,6 @@
 
 # log
 log/*
+
+# go mod
+go.sum

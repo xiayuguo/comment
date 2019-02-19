@@ -7,6 +7,7 @@ import (
 	"comment/router"
 	"comment/util"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/contrib/static"
 	"strings"
 )
 
@@ -46,6 +47,8 @@ func main() {
 	logger.SetRollingFile(Log.Path, "server.log", 10, 10, logger.MB)
 	// 初始化 gin 服务
 	r := gin.Default()
+	// Serve frontend static files
+	r.Use(static.Serve("/", static.LocalFile("./frontend", true)))
 	// 初始化中间件
 	middleware.Init(r)
 	// 初始化路由

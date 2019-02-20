@@ -10,8 +10,8 @@ Log:
   IsConsole: 1
 
 Db:
-  Host: 127.0.0.1
-  Port: 29017
+  Host: mongodb
+  Port: 27017
   User: comment
   Password: comment
   Database: comment

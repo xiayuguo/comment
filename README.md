@@ -1,6 +1,11 @@
 
 # comment
 
+## Deploy
+```shell
+wget -O- https://raw.githubusercontent.com/hugoxia/comment/master/quickstart.py | python -
+```
+
 ## Features
 - comment
 - reply to comment

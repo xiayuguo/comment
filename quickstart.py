@@ -30,7 +30,7 @@ def main():
         return
 
     # 克隆代码到当前目录
-    result = os.system("git clone https://github.com/hugoxia/comment.git")
+    result = os.system("git clone https://github.com/hugoxia/comment.git && cd comment")
     if result == 0:
         print("Download code success.")
     else:
@@ -70,7 +70,7 @@ def main():
     if result == 0:
         print("Docker build comment success.")
     else:
-        print("Docker buidl comment fail.")
+        print("Docker build comment fail.")
 
     # 启动 comment 服务
     result = os.system("docker run -d --link mongo-comment:mongodb -p 10008:10008 comment")

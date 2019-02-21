@@ -6,7 +6,7 @@ import platform
 
 
 def main():
-    print("Start my show.")
+    print("Start...")
     # 检查系统版本, 不支持Windows
     sys_version = platform.system()
     print("Your system version is %s." % sys_version)
@@ -44,7 +44,8 @@ def main():
         print("MongoDB create volume mongo_data_comment fail.")
    
     # 启动 MongoDB
-    result = os.system("docker run -d --name mongo-comment -v mongo_data_comment:/data/db -p 29017:27017 mongo")
+    result = os.system("docker run -d --name mongo-comment -v mongo_data_comment:/data/db -p 29017:27017 "
+                       "-e MONGO_INITDB_ROOT_USERNAME=comment -e MONGO_INITDB_ROOT_PASSWORD=comment mongo")
     if result == 0:
         print("MongoDB run success.")
     else:

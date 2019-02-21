@@ -5,6 +5,16 @@ import sys
 import platform
 
 
+def execute(cmd, response):
+    result = os.system(cmd)
+    if result == 0:
+        print("%s success." % response)
+        return result
+    else:
+        print("%s fail." % response)
+        sys.exit()
+
+
 def main():
     print("Start...")
     # 检查系统版本, 不支持Windows
@@ -30,70 +40,35 @@ def main():
         return
 
     # 克隆代码到当前目录
-    result = os.system("git clone https://github.com/hugoxia/comment.git")
-    if result == 0:
-        print("Download code success.")
-    else:
-        print("Download code fail.")
+    execute("git clone https://github.com/hugoxia/comment.git", "Download code")
         
     # 切换目录
     os.chdir("comment")
 
     # 创建 MongoDB 数据卷
-    result = os.system("docker volume create mongo_data_comment")
-    if result == 0:
-        print("MongoDB create volume mongo_data_comment success.")
-    else:
-        print("MongoDB create volume mongo_data_comment fail.")
-        return
+    execute("docker volume create mongo_data_comment", "MongoDB create volume mongo_data_comment")
    
     # 启动 MongoDB
-    result = os.system("docker run -d --name mongo-comment -v mongo_data_comment:/data/db -p 29017:27017 mongo")
-    if result == 0:
-        print("MongoDB run success.")
-    else:
-        print("MongoDB run fail.")
-        return
+    execute("docker run -d --name mongo-comment -v mongo_data_comment:/data/db -p 29017:27017 mongo", "MongoDB run")
 
     # 拷贝 MongoDB 备份数据文件
-    result = os.system("docker cp comment.dump mongo-comment:/comment.dump")
-    if result == 0:
-        print("Copy comment.dump success.")
-    else:
-        print("Copy comment.dump fail.")
-        return
+    execute("docker cp comment.dump mongo-comment:/comment.dump", "Copy comment.dump")
     
     # 初始化 MongoDB 数据库
-    result = os.system("docker exec mongo-comment bash -c 'mongorestore --db my_db --gzip --archive=/comment.dump'")
-    if result == 0:
-        print("Init MongoDB data success.")
-    else:
-        print("Init MongoDB data fail.")
-        return
+    execute("docker exec mongo-comment bash -c 'mongorestore --db my_db --gzip --archive=/comment.dump'",
+            "Init MongoDB data")
 
     # MongoDB 创建用户 comment
-    result = os.system("docker cp create_user.js mongo-comment:/create_user.js && docker exec mongo-comment bash -c 'mongo admin /create_user.js'")
-    if result == 0:
-        print("Create user comment success.")
-    else:
-        print("Create user comment fail.")
-        return
+    execute("docker cp create_user.js mongo-comment:/create_user.js && "
+            "docker exec mongo-comment bash -c 'mongo admin /create_user.js'",
+            "Create user comment")
 
     # 编译 comment 服务
-    result = os.system("docker build -t comment .")
-    if result == 0:
-        print("Docker build comment success.")
-    else:
-        print("Docker build comment fail.")
-        return
+    execute("docker build -t comment .", "Docker build comment")
 
     # 启动 comment 服务
-    result = os.system("docker run -d --link mongo-comment:mongodb -p 10008:10008 comment")
-    if result == 0:
-        print("Comment server run success.")
-        print("http://127.0.0.1:10008/")
-    else:
-        print("Comment server run fail.")
+    execute("docker run -d --link mongo-comment:mongodb -p 10008:10008 comment", "Comment server run")
+    print("Please visit http://127.0.0.1:10008/")
 
 
 if __name__ == "__main__":

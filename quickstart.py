@@ -52,14 +52,14 @@ def main():
     execute("docker run -d --name mongo-comment -v mongo_data_comment:/data/db -p 29017:27017 mongo", "MongoDB run")
 
     # 拷贝 MongoDB 备份数据文件
-    execute("docker cp comment.dump mongo-comment:/comment.dump", "Copy comment.dump")
+    execute("docker cp deploy/comment.dump mongo-comment:/comment.dump", "Copy comment.dump")
     
     # 初始化 MongoDB 数据库
     execute("docker exec mongo-comment bash -c 'mongorestore --db my_db --gzip --archive=/comment.dump'",
             "Init MongoDB data")
 
     # MongoDB 创建用户 comment
-    execute("docker cp create_user.js mongo-comment:/create_user.js && "
+    execute("docker cp deploy/create_user.js mongo-comment:/create_user.js && "
             "docker exec mongo-comment bash -c 'mongo admin /create_user.js'",
             "Create user comment")
 

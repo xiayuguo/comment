@@ -3,7 +3,7 @@
 
 ## Deploy
 ```shell
-wget -O- https://raw.githubusercontent.com/hugoxia/comment/master/quickstart.py | python -
+wget -O- https://raw.githubusercontent.com/xiayuguo/comment/master/quickstart.py | python -
 ```
 
 ## Features
